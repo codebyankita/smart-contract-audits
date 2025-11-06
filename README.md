@@ -1,8 +1,8 @@
 # **Universal Smart Contract Auditing Cockpit**  
-### **Audit *Any* Solidity Contract **  
+ ## **Audit Any Solidity Contract **
  
 
-## **TL;DR (30-Second Start)**
+# ** (30-Second Start)**
 
 ```bash
 # 1. Clone the cockpit
@@ -271,11 +271,7 @@ balance[msg.sender] -= amount;
 (bool s,) = msg.sender.call{value: amount}("");
 require(s);
 ```
-
 **Fixed in:** `abc123`
-```
-
----
 
 ### **Step 4: Generate Final Report (PDF + MD)**
 
