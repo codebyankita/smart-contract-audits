@@ -1,8 +1,8 @@
 # **Universal Smart Contract Auditing Cockpit**  
- ## **Audit Any Solidity Contract **
+
  
 
-# ** (30-Second Start)**
+## ** (30-Second Start)**
 
 ```bash
 # 1. Clone the cockpit
