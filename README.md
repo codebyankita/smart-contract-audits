@@ -425,3 +425,9 @@ report/
 ---
 
 **Happy hacking. Stay paranoid. Ship secure.**  
+
+
+
+steps for proper auditing 
+1.scopping
+2.recon
