@@ -431,3 +431,31 @@ report/
 steps for proper auditing 
 1.scopping
 2.recon
+
+
+
+✅ Final Fix — Make 5-t-swap-audit a normal folder
+
+Run these exact commands in order from inside your main repo (smart-contract-audit):
+
+# 1. Completely remove it from Git’s tracking index (no data loss)
+git rm -r --cached 5-t-swap-audit
+
+# 2. Remove any leftover Git metadata from inside that folder
+rm -rf 5-t-swap-audit/.git
+rm -rf 5-t-swap-audit/.gitmodules
+
+# 3. Add the cleaned folder again
+git add 5-t-swap-audit
+
+# 4. Commit and push it as a normal directory
+git commit -m "fix: include 5-t-swap-audit as a normal folder (not submodule)"
+git push origin main
+
+
+🧩 Tip for future audits
+
+Whenever you clone an audit repo (like from Cyfrin or your own), do this before adding it to your main repo:
+
+git clone https://github.com/Cyfrin/5-t-swap-audit.git
+rm -rf 5-t-swap-audit/.git

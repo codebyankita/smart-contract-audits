@@ -3,7 +3,7 @@
 	url = https://github.com/foundry-rs/forge-std
 [submodule "sc-exploits-minimized/lib/openzeppelin-contracts"]
 	path = sc-exploits-minimized/lib/openzeppelin-contracts
-	url = https://github.com/openzeppelin/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
 [submodule "sc-exploits-minimized/lib/kontrol-cheatcodes"]
 	path = sc-exploits-minimized/lib/kontrol-cheatcodes
 	url = https://github.com/runtimeverification/kontrol-cheatcodes
