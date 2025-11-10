@@ -61,7 +61,7 @@ contract TSwapPool is ERC20 {
         uint256 wethWithdrawn,
         uint256 poolTokensWithdrawn
     );
-    //@audit-info 3 events should be indexed if there are more than 3 parameters
+    //@written 3 events should be indexed if there are more than 3 parameters
     event Swap(
         address indexed swapper,
         IERC20 tokenIn,
@@ -96,7 +96,7 @@ contract TSwapPool is ERC20 {
         string memory liquidityTokenName,
         string memory liquidityTokenSymbol
     ) ERC20(liquidityTokenName, liquidityTokenSymbol) {
-        //@audit-info zero address check
+        //@info zero address check
         i_wethToken = IERC20(wethToken);
         i_poolToken = IERC20(poolToken);
     }
@@ -114,12 +114,12 @@ contract TSwapPool is ERC20 {
     /// @param maximumPoolTokensToDeposit The maximum amount of pool tokens the user is willing to deposit, again it's
     /// derived from the amount of WETH the user is going to deposit
     /// @param deadline The deadline for the transaction to be completed by
-    //q hey, if it's empty, how does it "warm up?"
+    //q hey, if it's empty, how does it "warm up?"//e looked it
     function deposit(
         uint256 wethToDeposit,
         uint256 minimumLiquidityTokensToMint,
         uint256 maximumPoolTokensToDeposit,
-        //@audit-info deadline not being used
+        //@reported deadline not being used
         //if someone seta deadline let;s say next block
         ///they could still deposit!!
         //IMPACT: HIGH a user who expects a deposit to fail, will go throgh. Servere distruption of functionality
@@ -131,7 +131,7 @@ contract TSwapPool is ERC20 {
         returns (uint256 liquidityTokensToMint)
     {
         if (wethToDeposit < MINIMUM_WETH_LIQUIDITY) {
-            //@audit-info MINIMUM_WETH_LIQUIDITY is a constant and therefore not required to be emitted
+            //@reportedMINIMUM_WETH_LIQUIDITY is a constant and therefore not required to be emitted
 
             revert TSwapPool__WethDepositAmountTooLow(
                 MINIMUM_WETH_LIQUIDITY,
@@ -140,7 +140,7 @@ contract TSwapPool is ERC20 {
         }
         if (totalLiquidityTokenSupply() > 0) {
             uint256 wethReserves = i_wethToken.balanceOf(address(this));
-            //@audit-gas dont need this line
+            //@reported-gas dont need this line
             uint256 poolTokenReserves = i_poolToken.balanceOf(address(this));
             // Our invariant says weth, poolTokens, and liquidity tokens must always have the same ratio after the
             // initial deposit
@@ -219,7 +219,7 @@ contract TSwapPool is ERC20 {
     ) private {
         //e follow cei
         _mint(msg.sender, liquidityTokensToMint);
-        //@audit-low this is backwards! shuld be
+        //@reported-low this is backwards! shuld be
         //IMAPCT : Super LOW -protocol is giving wrong information
         //LIKELIHOOD : HIGH
         //(msg.sender, wethToDeposit, poolTokensToDeposit);
@@ -306,7 +306,7 @@ contract TSwapPool is ERC20 {
         // totalPoolTokensOfPool) + (wethToDeposit * poolTokensToDeposit) = k
         // (totalWethOfPool * totalPoolTokensOfPool) + (wethToDeposit * totalPoolTokensOfPool) = k - (totalWethOfPool *
         // poolTokensToDeposit) - (wethToDeposit * poolTokensToDeposit)
-        //@audit-info magic number
+        //@written-info magic number
         //0.03% fee
         uint256 inputAmountMinusFee = inputAmount * 997;
         uint256 numerator = inputAmountMinusFee * outputReserves;
@@ -334,17 +334,17 @@ contract TSwapPool is ERC20 {
         // inputReserves * outputAmount = inputAmount (outputReserves- outputAmount)
         //inputReserves * outputAmount/(outputReserves- outputAmount) = inputAmount
         //plus fees... ignore them for now
-        //@audit-info magic numbers
+        //@written-info magic numbers
         //997/10_000
         //91.3% fee??
-        //@audit: HIGH
+        //@reported: HIGH
         //IMPACT: HIGH users are charged way too much!
         //LIKELIHOOD: HIGH -> swapExactInput is one of main swapping function!!
         return
             ((inputReserves * outputAmount) * 10000) /
             ((outputReserves - outputAmount) * 997);
     }
-    //@audit-info wheres the natspec?
+    //@written-info wheres the natspec?
     function swapExactInput(
         IERC20 inputToken, // e input token to swap / sell ie: DAI
         uint256 inputAmount, // e amount of input token to sell ie: DAI
@@ -353,12 +353,12 @@ contract TSwapPool is ERC20 {
         uint256 minOutputAmount, // e minimum output amount expected to receive
         uint64 deadline // e deadline for when the transaction should expire
     )
-        //@audit-info  this should be external
+        //@written-info  this should be external
         public
         revertIfZero(inputAmount)
         revertIfDeadlinePassed(deadline)
-        //@audit-low
-        //IMAPZCR:LOW -protocol is giving the wrong return
+        //@reported-low
+        //IMAPECT:LOW -protocol is giving the wrong return
         //LIKELIHOOD:HIGH -always the case
         returns (uint256 output)
     {
@@ -416,7 +416,7 @@ contract TSwapPool is ERC20 {
 //I want 10 output WETH, and my input is DAI"
 //send the transction , but the pool get a MASSIVE transction that changes the price
 //10 output WETH -> 10,000,000,000
-//@audit need a max input amount
+//@written need a max input amount
 //MEV Attck
         _swap(inputToken, inputAmount, outputToken, outputAmount);
     }
@@ -430,7 +430,7 @@ contract TSwapPool is ERC20 {
         uint256 poolTokenAmount
     ) external returns (uint256 wethAmount) {
         //pool token -> input
-        //@audit this is wrong!
+        //@report this is wrong!
         //swapExectinput(minWethToReceive)
         return
             swapExactOutput(
@@ -463,7 +463,7 @@ contract TSwapPool is ERC20 {
         ) {
             revert TSwapPool__InvalidToken();
         }
-        //@audit breks protocol Invarient!
+        //@written breks protocol Invarient!
         swap_count++;
         //fre e on transfer
         if (swap_count >= SWAP_COUNT_MAX) {
