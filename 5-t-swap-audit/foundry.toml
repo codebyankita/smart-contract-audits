@@ -5,10 +5,14 @@ libs = ["lib"]
 solc = "0.8.20"
 remappings = ['@openzeppelin/contracts=lib/openzeppelin-contracts/contracts']
 
+# [fuzz]
+# seed= 0
+
 [invariant]
 runs = 256
 depth = 32
 fail_on_revert = true
+
 
 [fmt]
 bracket_spacing = true
