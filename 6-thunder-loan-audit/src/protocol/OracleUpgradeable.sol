@@ -1,21 +1,39 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 pragma solidity 0.8.20;
 
-import { ITSwapPool } from "../interfaces/ITSwapPool.sol";
-import { IPoolFactory } from "../interfaces/IPoolFactory.sol";
-import { Initializable } from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import {ITSwapPool} from "../interfaces/ITSwapPool.sol";
+import {IPoolFactory} from "../interfaces/IPoolFactory.sol";
+import {
+    Initializable
+} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 contract OracleUpgradeable is Initializable {
     address private s_poolFactory;
 
-    function __Oracle_init(address poolFactoryAddress) internal onlyInitializing {
+    //cant have consrtctor
+    //user ->. proxy -> implementation
+    //         storage in proxy
+    //                   storage in implemetation
+    //storage -> proxy
+    //logic -> implementation -> constructor
+    //@audit-info need to do 0 address check
+    function __Oracle_init(
+        address poolFactoryAddress
+    ) internal onlyInitializing {
         __Oracle_init_unchained(poolFactoryAddress);
     }
 
-    function __Oracle_init_unchained(address poolFactoryAddress) internal onlyInitializing {
+    function __Oracle_init_unchained(
+        address poolFactoryAddress
+    ) internal onlyInitializing {
         s_poolFactory = poolFactoryAddress;
     }
 
+    // e omg we are calling an external contract
+    // what if the price is manipulated?
+    // can i manipulate the price?
+    // reentrancy???
+    //check the test?? @audit informational you should use forked tests for this!
     function getPriceInWeth(address token) public view returns (uint256) {
         address swapPoolOfToken = IPoolFactory(s_poolFactory).getPool(token);
         return ITSwapPool(swapPoolOfToken).getPriceOfOnePoolTokenInWeth();

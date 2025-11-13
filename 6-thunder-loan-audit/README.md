@@ -119,3 +119,6 @@ forge coverage --report debug
 
 
 -first you have to do on src and right click then use solidity metrix see proper with all code line and all detils in short 
+-make slither command you can see more issue after check that 
+run command  aderyn . then create report.md file in your repo 
+-forge coverage

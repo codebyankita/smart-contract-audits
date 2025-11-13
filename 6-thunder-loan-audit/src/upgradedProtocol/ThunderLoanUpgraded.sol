@@ -137,10 +137,16 @@ contract ThunderLoanUpgraded is Initializable, OwnableUpgradeable, UUPSUpgradeab
     /*//////////////////////////////////////////////////////////////
                            EXTERNAL FUNCTIONS
     //////////////////////////////////////////////////////////////*/
+    //@audit info change name to poolFactoryAddress
+
+    //q what happen if we deploy the conntract, and someone else initializes it ?
+    //a that would suck 
+    //They could pick a different tswapAddress!!!
+    //@audit low -initializers can be front run
     function initialize(address tswapAddress) external initializer {
         __Ownable_init(msg.sender);
         __UUPSUpgradeable_init();
-        __Oracle_init(tswapAddress);
+        __Oracle_init(tswapAddress);//writtem aderyn
         s_flashLoanFee = 3e15; // 0.3% ETH fee
     }
 
