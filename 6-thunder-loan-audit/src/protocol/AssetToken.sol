@@ -24,7 +24,8 @@ contract AssetToken is ERC20 {
     // e underlying == USDC
 // e assetToken == shares
 // e compound
-// q what does this rate do?
+// qanswered what does this rate do?
+//a rated between the underlying and the asset token
     uint256 private s_exchangeRate;
     uint256 public constant EXCHANGE_RATE_PRECISION = 1e18;
     uint256 private constant STARTING_EXCHANGE_RATE = 1e18;
@@ -58,7 +59,8 @@ contract AssetToken is ERC20 {
         address thunderLoan,
         IERC20 underlying,//e token being deposit for flash loan
         // oh, are the ERC20s stored in AssetToken.sol instead of ThunderLoan?
-// q where are the tokens stored?
+// qanswerd where are the tokens stored?
+//a they are stored in AssetToken contract
         string memory assetName,
         string memory assetSymbol
     )
@@ -82,9 +84,11 @@ contract AssetToken is ERC20 {
 
     function transferUnderlyingTo(address to, uint256 amount) external onlyThunderLoan {
         // weird erc20s????
-// q what happens if USDC blacklists the thunderloan contract?
-// q what happens if USDC blacklists the asset token contract?
+// qanswered what happens if USDC denylists the thunderloan contract?
+
 // @follow up, weird ERC20s with USDC
+//@audit-medium the protocol will be frozen, and that would suck?
+//if the user denyliated too bad and it effect others
         i_underlying.safeTransfer(to, amount);
     }
 
@@ -99,6 +103,15 @@ contract AssetToken is ERC20 {
         // newExchangeRate = 1 (4 + 0.5) / 4
         // newExchangeRate = 1.125
 
+       // 4* 1.125 = 4.5 USDC
+// 5 assetToken
+// 5 USDC
+// Exchange Rate 1
+// 1 fee
+//?? exchange rate?
+// 1 * (5 + 1)/5 =
+// 1* (6) / 5 = 1.2
+// 5 AssetToken * 1.2 = 6 USDC
         //q what if total supply is 0?
         //this breks! is that an issue?
         //@audit gas too many storage reads -> store as a memory variable

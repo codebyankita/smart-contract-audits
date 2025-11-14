@@ -3,7 +3,8 @@ pragma solidity 0.8.20;
 
 
 //e this is probably interface to work with poolfactory
-//q why we are using tswap
+// qanswered why we are using tswap
+//a we needed to get the value of token to  calculate the fees
 interface IPoolFactory {
     function getPool(address tokenAddress) external view returns (address);
 }

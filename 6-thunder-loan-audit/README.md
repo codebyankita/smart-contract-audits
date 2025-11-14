@@ -122,3 +122,47 @@ forge coverage --report debug
 -make slither command you can see more issue after check that 
 run command  aderyn . then create report.md file in your repo 
 -forge coverage
+
+-for checking in 6-thunder-loan-audit/src/protocol/ThunderLoan.sol. for asset token check for wit contract 
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.18;
+
+/// @title MappingTest - Simple mapping demo for beginners
+contract MappingTest {
+    // Mapping: token address → paired token address
+    mapping(address => address) public token2token;
+
+    /// @notice Set a mapping value
+    /// @param token The key token
+    /// @param token2 The value token
+    function set(address token, address token2) public {
+        token2token[token] = token2;
+    }
+
+    /// @notice Remove a token mapping
+    /// @param token The key to remove
+    function remove(address token) public {
+        delete token2token[token]; // Resets the value to address(0)
+    }
+
+    /// @notice Get the value for a token
+    /// @param token The key to look up
+    /// @return The mapped address
+    function get(address token) public view returns (address) {
+        return token2token[token];
+    }
+}
+// ankitakapadiya@Ankitas-MacBook-Pro smart-contract-audit % chisel
+// Welcome to Chisel! Type `!help` to show available commands.
+// ➜ mapping(address => address)public token2token;
+// ➜ token2token[address(1)] = address(2)
+// Type: address
+// └ Data: 0x0000000000000000000000000000000000000002
+// ➜ token2token[address(1)]
+// Type: address
+// └ Data: 0x0000000000000000000000000000000000000002
+// ➜ delete token2token[address(1)]
+// ➜ token2token[address(1)]
+// Type: address
+// └ Data: 0x0000000000000000000000000000000000000002
+// ➜ 
