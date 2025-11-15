@@ -78,3 +78,9 @@ Deposits do not generate protocol fees, so they should never alter the exchange 
  }
 
 ```
+
+### [M-2] Using TSwap as price oracle leads to price and oracle manipulation attacks
+
+**Description:** The TSwap protocol is a constant product formula based AMM (automated market maker). The price of a token is determined by how many reserves are on either side of the pool. Because of this, it is easy for malicious users to manipulate the price of a token by buying or selling a large amount of the token in the same transaction, essentially ignoring protocol fees.
+**Impact:** Liquidity providers will drastically reduced fees for providing liquidity.
+**Proof of Concept:**

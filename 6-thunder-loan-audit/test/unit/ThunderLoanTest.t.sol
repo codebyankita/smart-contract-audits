@@ -236,3 +236,5 @@ contract MaliciousFlashLoanReceiver is IFlashLoanReceiver {
         return true;
     }
 }
+//IMAPCT:medium/low
+//LIKELIHOOD :high
