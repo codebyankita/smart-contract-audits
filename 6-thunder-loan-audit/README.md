@@ -166,3 +166,7 @@ contract MappingTest {
 // Type: address
 // └ Data: 0x0000000000000000000000000000000000000002
 // ➜ 
+
+
+-forge inspect ThunderLoan storage
+-forge inspect ThunderLoanUpgraded storage
