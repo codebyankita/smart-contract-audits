@@ -125,3 +125,9 @@ make aderyn
 - We are missing some zero address checks/input validation intentionally to save gas. 
 - We have magic numbers defined as literals that should be constants. 
 - Assume the `deployToken` will always correctly have an L1Token.sol copy, and not some [weird erc20](https://github.com/d-xo/weird-erc20)
+
+
+
+
+-https://github.com/Cyfrin/audit-checklist/tree/main
+https://medium.com/coinmonks/gemstoneido-contract-stuck-with-921-eth-an-analysis-of-why-transfer-does-not-work-on-zksync-era-d5a01807227d
