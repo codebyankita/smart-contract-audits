@@ -453,9 +453,3 @@ git commit -m "fix: include 5-t-swap-audit as a normal folder (not submodule)"
 git push origin main
 
 
-🧩 Tip for future audits
-
-Whenever you clone an audit repo (like from Cyfrin or your own), do this before adding it to your main repo:
-
-git clone https://github.com/Cyfrin/5-t-swap-audit.git
-rm -rf 5-t-swap-audit/.git
